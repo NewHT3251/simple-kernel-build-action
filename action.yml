@@ -91,6 +91,7 @@ runs:
       run: |
         cd kernel_source
         ${{ inputs.KSU_CURL_COMMAND }}
+        python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
         
     - name: Build Kernel
       shell: bash
