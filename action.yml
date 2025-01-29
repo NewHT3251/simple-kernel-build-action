@@ -97,8 +97,8 @@ runs:
       shell: bash
       run: |
         cd kernel_source
-        make ${{ inputs.KERNEL_CONFIG }} ARCH=${{ inputs.ARCH }} {{ inputs.MAKE_ARGS }}
-        make -j$(nproc) ARCH=${{ inputs.ARCH }} {{ inputs.MAKE_ARGS }}
+        make ${{ inputs.KERNEL_CONFIG }} ARCH=${{ inputs.ARCH }} ${{ inputs.MAKE_ARGS }}
+        make -j$(nproc) ARCH=${{ inputs.ARCH }} ${{ inputs.MAKE_ARGS }}
         
     - name: Package Kernel
       shell: bash
