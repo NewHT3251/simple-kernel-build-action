@@ -99,11 +99,7 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.OUTPUT_PACKAGE_FORMAT }}" = "anykernel3" ]; then
-           ANYKERNEL_URL="${{ inputs.anykernel3-url }}"
-          if [ -z "$ANYKERNEL_URL" ]; then
-            ANYKERNEL_URL=""
-          fi
-          git clone "$ANYKERNEL_URL" --depth=1 AnyKernel3
+          git clone ${{ inputs.ANYKERNEL_URL }} --depth=1 AnyKernel3
           
           # Copy kernel
           cp arch/${{ inputs.ARCH }}/boot/Image* AnyKernel3/
