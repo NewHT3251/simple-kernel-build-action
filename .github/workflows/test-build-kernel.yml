@@ -6,9 +6,8 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -16,14 +15,14 @@ jobs:
     - name: Build Kernel
       uses: mlm-games/simple-kernel-build-action@main
       with:
-        KERNEL_CLONE_CMD: 'git clone https://github.com/mlm-studios/niigo_kernel_xiaomi_blossom' # PSA: directory and depth=1 are added automatically!
+        KERNEL_CLONE_CMD: 'git clone https://github.com/mlm-studios/niigo_kernel_xiaomi_blossom'
         KERNEL_CONFIG: 'blossom_defconfig'
         ARCH: 'arm64'
-        TOOLCHAIN_CLONE_CMD: 'mkdir $HOME/clang -p -v && aria2c -o aosp-clang.tar.gz https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/clang-r530567 && sleep 1 && tar -C "$HOME/clang" -zxf aosp-clang.tar.gz'
+        TOOLCHAIN_CLONE_CMD: 'mkdir -p $HOME/clang && wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r530567.tar.gz -O clang.tar.gz && tar xf clang.tar.gz -C $HOME/clang'
         ENABLE_KSU: 'true'
         ENABLE_CCACHE: 'true'
         OUTPUT_PACKAGE_FORMAT: 'anykernel3'
-        MAKE_ARGS: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang"' 
+        MAKE_ARGS: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang"'
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
