@@ -83,6 +83,7 @@ runs:
         else
           echo "Cloning GCC..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
+        fi
         
     - name: Setup KernelSU
       if: inputs.ENABLE_KSU == 'true'
