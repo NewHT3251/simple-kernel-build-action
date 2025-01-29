@@ -74,11 +74,15 @@ runs:
       run: |
         ${{ inputs.KERNEL_CLONE_CMD }} --depth=1 kernel_source
         
-    - name: Setup Toolchain
+    - name: Setup Toolchain and ccache vars
       shell: bash
       run: |
           echo "performing clang or gcc download and extraction..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
+          if [ ${{ inputs.ENABLE_CCACHE }} = true ]; then
+            export USE_CCACHE=1
+            export PATH="/usr/lib/ccache:$PATH"
+         fi
 
         
     - name: Setup KernelSU
