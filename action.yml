@@ -80,11 +80,9 @@ runs:
         if [ "${{ inputs.COMPILER }}" = "clang" ]; then
           echo "Cloning clang repo..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
-          export LLVM=1
         else
           echo "Cloning GCC..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
-          export CC=1
         
     - name: Setup KernelSU
       if: inputs.ENABLE_KSU == 'true'
