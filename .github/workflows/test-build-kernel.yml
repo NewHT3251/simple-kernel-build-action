@@ -1,0 +1,33 @@
+name: Build Kernel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build Kernel
+      uses: mlm-games/simple-kernel-build-action@v1
+      with:
+        KERNEL_CLONE_CMD: 'git clone https://github.com/mlm-studios/niigo_kernel_xiaomi_blossom' # PSA: directory and depth=1 are added automatically!
+        KERNEL_CONFIG: 'blossom_defconfig'
+        ARCH: 'arm64'
+        COMPILER: 'gcc'
+        TOOLCHAIN_CLONE_CMD: 'mkdir $HOME/clang -p -v && aria2c -o aosp-clang.tar.gz https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/clang-r530567 && tar -C $HOME/clang -zxf aosp-clang.tar.gz'
+        ENABLE_KSU: 'true'
+        ENABLE_CCACHE: 'true'
+        OUTPUT_PACKAGE_FORMAT: 'anykernel3'
+        MAKE_ARGS: 'O=out' #CC=clang
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-build
+        path: 'build/kernel-*'
