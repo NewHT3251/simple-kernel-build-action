@@ -85,6 +85,7 @@ runs:
       if: inputs.ENABLE_KSU == 'true'
       shell: bash
       run: |
+        cd kernel_source
         ${{ inputs.KSU_CURL_COMMAND }}
         
     - name: Build Kernel
@@ -97,6 +98,7 @@ runs:
     - name: Package Kernel
       shell: bash
       run: |
+        cd kernel_source
         if [ "${{ inputs.OUTPUT_PACKAGE_FORMAT }}" = "anykernel3" ]; then
           git clone ${{ inputs.ANYKERNEL_URL }} --depth=1 AnyKernel3
           
