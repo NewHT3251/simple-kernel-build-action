@@ -20,7 +20,7 @@ jobs:
         KERNEL_CONFIG: 'blossom_defconfig'
         ARCH: 'arm64'
         COMPILER: 'gcc'
-        TOOLCHAIN_CLONE_CMD: 'mkdir $HOME/clang -p -v && aria2c -o aosp-clang.tar.gz https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/clang-r530567 && sleep 1 && tar -C $HOME/clang -zxf aosp-clang.tar.gz'
+        TOOLCHAIN_CLONE_CMD: 'mkdir $HOME/clang -p -v && aria2c -o aosp-clang.tar.gz https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/clang-r530567 && sleep 1 && tar -C "$HOME/clang" -zxf aosp-clang.tar.gz'
         ENABLE_KSU: 'true'
         ENABLE_CCACHE: 'true'
         OUTPUT_PACKAGE_FORMAT: 'anykernel3'
