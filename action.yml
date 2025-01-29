@@ -82,7 +82,7 @@ runs:
           if [ ${{ inputs.ENABLE_CCACHE }} = true ]; then
             export USE_CCACHE=1
             export PATH="/usr/lib/ccache:$PATH"
-         fi
+          fi
 
         
     - name: Setup KernelSU
