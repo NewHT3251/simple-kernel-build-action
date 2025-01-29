@@ -13,6 +13,10 @@ inputs:
     description: 'Target architecture'
     required: true
     default: 'arm64'
+  MAKE_ARGS:
+    description: 'Arguments for make command (both defconfig and kernel)'
+    required: false
+    default: false
     
   # Toolchain options
   COMPILER:
@@ -92,8 +96,8 @@ runs:
       shell: bash
       run: |
         cd kernel_source
-        make ${{ inputs.KERNEL_CONFIG }} ARCH=${{ inputs.ARCH }}
-        make -j$(nproc) ARCH=${{ inputs.ARCH }}
+        make ${{ inputs.KERNEL_CONFIG }} ARCH=${{ inputs.ARCH }} {{ inputs.MAKE_ARGS }}
+        make -j$(nproc) ARCH=${{ inputs.ARCH }} {{ inputs.MAKE_ARGS }}
         
     - name: Package Kernel
       shell: bash
