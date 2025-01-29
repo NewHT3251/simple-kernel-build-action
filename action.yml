@@ -77,13 +77,9 @@ runs:
     - name: Setup Toolchain
       shell: bash
       run: |
-        if [ "${{ inputs.COMPILER }}" = "clang" ]; then
-          echo "Cloning clang repo..."
+          echo "performing clang or gcc download and extraction..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
-        else
-          echo "Cloning GCC..."
-          ${{ inputs.TOOLCHAIN_CLONE_CMD }}
-        fi
+
         
     - name: Setup KernelSU
       if: inputs.ENABLE_KSU == 'true'
