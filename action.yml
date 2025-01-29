@@ -19,10 +19,10 @@ inputs:
     default: false
     
   # Toolchain options
-  COMPILER:
-    description: 'compiler to use (gcc|clang)'
-    required: false
-    default: 'gcc'
+  # COMPILER:
+  #   description: 'compiler to use (gcc|clang)'
+  #   required: false
+  #   default: 'gcc'
   TOOLCHAIN_CLONE_CMD:
     description: 'Link of compiler to clone and use'
     required: false
