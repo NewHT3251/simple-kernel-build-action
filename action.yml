@@ -68,14 +68,14 @@ runs:
     - name: Clone Kernel Source
       shell: bash
       run: |
-        git clone ${{ inputs.KERNEL_SOURCE }} -b ${{ inputs.KERNEL_BRANCH }} --depth=1 kernel_source
+        ${{ inputs.KERNEL_CLONE_CMD }} --depth=1 kernel_source
         
     - name: Setup Toolchain
       shell: bash
       run: |
         if [ "${{ inputs.COMPILER }}" = "clang" ]; then
           echo "Cloning clang repo..."
-          git clone ${{ inputs.OTHER_CLANG_REPO }} $HOME/clang
+          ${{ inputs.TOOLCHAIN_CLONE_CMD }}
           export LLVM=1
         else
           echo "Cloning GCC..."
