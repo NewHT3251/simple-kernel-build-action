@@ -1,14 +1,11 @@
 name: 'Android Kernel Build Action'
+author: 'Ragebreaker'
 description: "Action to build Android kernel"
 
 inputs:
-  KERNEL_SOURCE:
-    description: 'Kernel source repository URL'
+  KERNEL_CLONE_CMD:
+    description: 'Command to clone kernel source code'
     required: true
-  KERNEL_BRANCH:
-    description: 'Branch name for kernel source'
-    required: false
-    default: 'main'
   KERNEL_CONFIG:
     description: 'Kernel configuration name (e.g. defconfig)'
     required: true
@@ -72,7 +69,6 @@ runs:
       shell: bash
       run: |
         git clone ${{ inputs.KERNEL_SOURCE }} -b ${{ inputs.KERNEL_BRANCH }} --depth=1 kernel_source
-        cd kernel_source
         
     - name: Setup Toolchain
       shell: bash
@@ -80,10 +76,11 @@ runs:
         if [ "${{ inputs.COMPILER }}" = "clang" ]; then
           echo "Cloning clang repo..."
           git clone ${{ inputs.OTHER_CLANG_REPO }} $HOME/clang
+          export LLVM=1
         else
           echo "Cloning GCC..."
           ${{ inputs.TOOLCHAIN_CLONE_CMD }}
-       fi
+          export CC=1
         
     - name: Setup KernelSU
       if: inputs.ENABLE_KSU == 'true'
