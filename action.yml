@@ -1,4 +1,4 @@
-name: 'Android Kernel Build Action'
+name: 'Android Kernel Builder Action'
 author: 'Ragebreaker'
 description: "Action to build Android kernel"
 
