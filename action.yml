@@ -29,7 +29,7 @@ inputs:
     
   # Features
   ENABLE_KSU:
-    description: 'Enable KernelSU support for non-gki (non-kprobe)'
+    description: 'Enable KernelSU support for non-gki (non-kprobe) ( ONLY ENABLE IF NOT ALREADY INTEGRATED!!! )'
     required: false
     default: false
   KSU_CURL_COMMAND:
@@ -47,6 +47,11 @@ inputs:
     description: 'Output package format (anykernel3|boot.img)'
     required: false
     default: 'anykernel3'
+  ANYKERNEL_URL:
+    description: 'Url for anykernel3 repo.'
+    required: false
+    default: 'https://github.com/mlm-games/AnyKernel3'
+    
 
 runs:
   using: 'composite'
@@ -56,7 +61,7 @@ runs:
       run: |
         sudo apt-get update
         set +e
-        sudo apt-get install -y build-essential bc bison flex libssl-dev ccache binutils git make openssl curl zip kmod cpio flex libelf-dev libssl-dev libtfm-dev libc6-dev device-tree-compiler ca-cer
+        sudo apt-get install -y build-essential bc bison flex libssl-dev ccache binutils git make openssl curl zip kmod cpio libelf-dev libssl-dev libtfm-dev libc6-dev device-tree-compiler ca-cer
         set -e
         
     - name: Setup ccache
@@ -84,7 +89,7 @@ runs:
       if: inputs.ENABLE_KSU == 'true'
       shell: bash
       run: |
-        curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s "${{ inputs.KSU_CURL_COMMAND }}"
+        ${{ inputs.KSU_CURL_COMMAND }}
         
     - name: Build Kernel
       shell: bash
@@ -99,16 +104,16 @@ runs:
         if [ "${{ inputs.OUTPUT_PACKAGE_FORMAT }}" = "anykernel3" ]; then
            ANYKERNEL_URL="${{ inputs.anykernel3-url }}"
           if [ -z "$ANYKERNEL_URL" ]; then
-            ANYKERNEL_URL="https://github.com/osm0sis/AnyKernel3"
+            ANYKERNEL_URL=""
           fi
           git clone "$ANYKERNEL_URL" --depth=1 AnyKernel3
           
           # Copy kernel
-          cp arch/${{ inputs.arch }}/boot/Image* AnyKernel3/
-          [ -f arch/${{ inputs.arch }}/boot/dtbo.img ] && \
-            cp arch/${{ inputs.arch }}/boot/dtbo.img AnyKernel3/
-          [ -f arch/${{ inputs.arch }}/boot/dtb.img ] && \
-            cp arch/${{ inputs.arch }}/boot/dtb.img AnyKernel3/
+          cp arch/${{ inputs.ARCH }}/boot/Image* AnyKernel3/
+          [ -f arch/${{ inputs.ARCH }}/boot/dtbo.img ] && \
+            cp arch/${{ inputs.ARCH }}/boot/dtbo.img AnyKernel3/
+          [ -f arch/${{ inputs.ARCH }}/boot/dtb.img ] && \
+            cp arch/${{ inputs.ARCH }}/boot/dtb.img AnyKernel3/
             
           cd AnyKernel3
           zip -r9 ../../build/kernel-${{ github.sha }}.zip *
