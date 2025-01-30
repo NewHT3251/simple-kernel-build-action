@@ -28,6 +28,7 @@ A GitHub Action to automate the building of Android kernels.
 - `ENABLE_CCACHE`: Enable ccache support (default: `true`).
 - `OUTPUT_PACKAGE_FORMAT`: Output package format (anykernel3|boot.img) (default: `anykernel3`).
 - `ANYKERNEL_URL`: URL for AnyKernel3 repository (default: `https://github.com/mlm-games/AnyKernel3`).
+- `MAKE_ARGS`: Arguments to pass to makefile (default: Check actions.yml)
 
 ## Outputs
 
