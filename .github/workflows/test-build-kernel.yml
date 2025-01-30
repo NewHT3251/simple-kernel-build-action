@@ -18,11 +18,11 @@ jobs:
         KERNEL_CLONE_CMD: 'git clone https://github.com/mlm-studios/niigo_kernel_xiaomi_blossom'
         KERNEL_CONFIG: 'blossom_defconfig'
         ARCH: 'arm64'
-        TOOLCHAIN_CLONE_CMD: 'mkdir -p $HOME/clang && wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r530567.tar.gz -O clang.tar.gz && tar xf clang.tar.gz -C $HOME/clang'
+        TOOLCHAIN_CLONE_CMD: 'mkdir -p $HOME/clang && wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r530567.tar.gz -O clang.tar.gz && tar xf clang.tar.gz -C $HOME/clang && sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi'
         ENABLE_KSU: 'true'
         ENABLE_CCACHE: 'true'
         OUTPUT_PACKAGE_FORMAT: 'anykernel3'
-        MAKE_ARGS: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang"'
+        MAKE_ARGS: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang" CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-'
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
