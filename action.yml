@@ -44,10 +44,10 @@ inputs:
     default: true
     
   # Output options
-  OUTPUT_PACKAGE_FORMAT:
-    description: 'Output package format (anykernel3|boot.img)'
-    required: false
-    default: 'anykernel3'
+  # OUTPUT_PACKAGE_FORMAT:
+  #   description: 'Output package format (anykernel3|boot.img)'
+  #   required: false
+  #   default: 'anykernel3'
   ANYKERNEL_URL:
     description: 'Url for anykernel3 repo.'
     required: false
@@ -104,18 +104,17 @@ runs:
       shell: bash
       run: |
         cd kernel_source
-        if [ "${{ inputs.OUTPUT_PACKAGE_FORMAT }}" = "anykernel3" ]; then
-          git clone ${{ inputs.ANYKERNEL_URL }} --depth=1 AnyKernel3
+        git clone ${{ inputs.ANYKERNEL_URL }} --depth=1 AnyKernel3
+        
+        # Copy kernel
+        cp arch/${{ inputs.ARCH }}/boot/Image* AnyKernel3/
+        [ -f arch/${{ inputs.ARCH }}/boot/dtbo.img ] && \
+          cp arch/${{ inputs.ARCH }}/boot/dtbo.img AnyKernel3/
+        [ -f arch/${{ inputs.ARCH }}/boot/dtb.img ] && \
+          cp arch/${{ inputs.ARCH }}/boot/dtb.img AnyKernel3/
           
-          # Copy kernel
-          cp arch/${{ inputs.ARCH }}/boot/Image* AnyKernel3/
-          [ -f arch/${{ inputs.ARCH }}/boot/dtbo.img ] && \
-            cp arch/${{ inputs.ARCH }}/boot/dtbo.img AnyKernel3/
-          [ -f arch/${{ inputs.ARCH }}/boot/dtb.img ] && \
-            cp arch/${{ inputs.ARCH }}/boot/dtb.img AnyKernel3/
-            
-          cd AnyKernel3
-          zip -r9 ../../build/kernel-${{ github.sha }}.zip *
+        cd AnyKernel3
+        zip -r9 ../../build/kernel-${{ github.sha }}.zip *
 
 branding:
   icon: 'cpu' 
