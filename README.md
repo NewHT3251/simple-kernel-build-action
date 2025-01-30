@@ -6,7 +6,7 @@ A GitHub Action to automate the building of Android kernels.
 
 - Setup build environment
 - Supports GCC and Clang compilers
-- KernelSU integration
+- KernelSU integration (if using kprobes, just export CONFIG_KSU=y)
 - ccache support
 - AnyKernel3 packaging
 - Customizable kernel configuration
