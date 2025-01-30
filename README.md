@@ -15,16 +15,14 @@ A GitHub Action to automate the building of Android kernels.
 
 ### Required Inputs
 
-- `KERNEL_CLONE_CMD`: Command to clone the kernel source code.
-- `KERNEL_BRANCH`: Git branch of the kernel source.
+- `KERNEL_CLONE_CMD`: Command to clone the kernel source code. (Default: ${{github.repository}})
 - `KERNEL_CONFIG`: Kernel configuration name (e.g., defconfig).
 
 ### Optional Inputs
 
 - `ARCH`: Target architecture (default: `arm64`).
 - `COMPILER`: Compiler to use (gcc|clang) (default: `gcc`).
-- `TOOLCHAIN_CLONE_CMD`: Link to clone the compiler (default: `git clone https://github.com/djb77/aarch64-linux-android-4.9 ./toolchain/gcc`).
-- `OTHER_CLANG_REPO`: Clang compiler repository (default: `https://github.com/android-linux-globals/rules_clang`).
+- `TOOLCHAIN_CLONE_CMD`: Link to clone the compiler (default: modified, pls check in actions.yml).
 - `ENABLE_KSU`: Enable KernelSU support (default: `false`).
 - `KSU_CURL_COMMAND`: KernelSU curl command (default: `curl -LSs "https://raw.githubusercontent.com/mlm-games/KernelSU-Non-GKI/main/kernel/setup-subm.sh" | bash -s`).
 - `ENABLE_CCACHE`: Enable ccache support (default: `true`).
@@ -63,7 +61,6 @@ jobs:
         TOOLCHAIN_CLONE_CMD: 'git clone https://github.com/djb77/aarch64-linux-android-4.9 ./toolchain/gcc'
         ENABLE_KSU: 'true'
         ENABLE_CCACHE: 'true'
-        OUTPUT_PACKAGE_FORMAT: 'anykernel3'
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
