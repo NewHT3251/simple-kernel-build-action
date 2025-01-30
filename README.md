@@ -31,7 +31,7 @@ A GitHub Action to automate the building of Android kernels.
 
 ## Outputs
 
-- `kernel_build`: Outputs the path to the built kernel package.
+- `kernel_build`: Outputs the path to the built kernel package. Directory of kernel clone is `kernel_source/`
 
 ## Example Workflow
 
@@ -65,4 +65,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: kernel-build
-        path: 'build/kernel-*'
+        path: 'kernel_source/flashable-anykernel.zip' # Always named flashable-anykernel.zip
