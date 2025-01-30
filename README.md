@@ -21,7 +21,6 @@ A GitHub Action to automate the building of Android kernels.
 ### Optional Inputs
 
 - `ARCH`: Target architecture (default: `arm64`).
-- `COMPILER`: Compiler to use (gcc|clang) (default: `gcc`).
 - `TOOLCHAIN_CLONE_CMD`: Link to clone the compiler (default: modified, pls check in actions.yml).
 - `ENABLE_KSU`: Enable KernelSU support (default: `false`).
 - `KSU_CURL_COMMAND`: KernelSU curl command (default: `curl -LSs "https://raw.githubusercontent.com/mlm-games/KernelSU-Non-GKI/main/kernel/setup-subm.sh" | bash -s`).
@@ -58,7 +57,6 @@ jobs:
         KERNEL_CLONE_CMD: 'git clone https://github.com/lineageos/android_kernel_xiaomi_msm8953 -b android 13.0' # PSA: directory and depth=1 are added automatically!
         KERNEL_CONFIG: 'msm8953_defconfig'
         ARCH: 'arm64'
-        COMPILER: 'gcc'
         TOOLCHAIN_CLONE_CMD: 'git clone https://github.com/djb77/aarch64-linux-android-4.9 ./toolchain/gcc'
         ENABLE_KSU: 'true'
         ENABLE_CCACHE: 'true'
