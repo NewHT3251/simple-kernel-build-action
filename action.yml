@@ -18,6 +18,14 @@ inputs:
     description: 'Arguments for make command (both defconfig and kernel)'
     required: false
     default: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang" CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-'
+  DTB_FILENAME:
+    description: 'name of compiled dtb (if present)'
+    required: false
+    default: 'dtb.img'
+  DTBO_FILENAME:
+    description: 'name of compiled dtbo (if present)'
+    reuired: false
+    default: 'dtbo.img'
     
   # Toolchain options
   # COMPILER:
@@ -108,7 +116,7 @@ runs:
       run: |
         cd kernel_source
         curl -LSs "https://raw.githubusercontent.com/mlm-games/KernelSU-Non-GKI/main/kernel/setup-subm.sh" | bash -s 
-        ./KernelSU/scripts/kernel_zipper.sh --dtb=arch/${{ inputs.ARCH }}/boot/dtb.img --dtbo=arch/${{ inputs.ARCH }}/boot/dtbo.img
+        ./KernelSU/scripts/kernel_zipper.sh --dtb=arch/${{ inputs.ARCH }}/boot/${{ inputs.DTB_FILENAME }} --dtbo=arch/${{ inputs.ARCH }}/boot/${{ inputs.DTBO_FILENAME }}
 
 branding:
   icon: 'cpu' 
