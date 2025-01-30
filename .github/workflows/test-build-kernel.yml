@@ -33,4 +33,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: kernel-build
-        path: '*.zip'
+        path: 'kernel_source/*.zip'
