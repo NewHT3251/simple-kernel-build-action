@@ -6,6 +6,7 @@ inputs:
   KERNEL_CLONE_CMD:
     description: 'Command to clone kernel source code'
     required: true
+    default: ${{github.repository}}
   KERNEL_CONFIG:
     description: 'Kernel configuration name (e.g. defconfig)'
     required: true
@@ -16,7 +17,7 @@ inputs:
   MAKE_ARGS:
     description: 'Arguments for make command (both defconfig and kernel)'
     required: false
-    default: false
+    default: 'O=out PATH=$HOME/clang/bin:$PATH CC="ccache clang" CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-'
     
   # Toolchain options
   # COMPILER:
@@ -26,7 +27,7 @@ inputs:
   TOOLCHAIN_CLONE_CMD:
     description: 'Link of compiler to clone and use'
     required: false
-    default: 'git clone https://github.com/djb77/aarch64-linux-android-4.9 ./toolchain/gcc'
+    default: 'mkdir -p $HOME/clang && wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r530567.tar.gz -O clang.tar.gz && tar xf clang.tar.gz -C $HOME/clang && sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi'
     
   # Features
   ENABLE_KSU:
@@ -72,6 +73,8 @@ runs:
     - name: Clone Kernel Source
       shell: bash
       run: |
+        # if [ -z ${{ inputs.KERNEL_CLONE_CMD }} ]; then
+        #   ${{ github.repository }}
         ${{ inputs.KERNEL_CLONE_CMD }} --depth=1 kernel_source
         
     - name: Setup Toolchain and ccache vars
