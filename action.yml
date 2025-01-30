@@ -107,17 +107,8 @@ runs:
       shell: bash
       run: |
         cd kernel_source
-        git clone ${{ inputs.ANYKERNEL_URL }} --depth=1 AnyKernel3
-        
-        # Copy kernel
-        cp arch/${{ inputs.ARCH }}/boot/Image* AnyKernel3/
-        [ -f arch/${{ inputs.ARCH }}/boot/dtbo.img ] && \
-          cp arch/${{ inputs.ARCH }}/boot/dtbo.img AnyKernel3/
-        [ -f arch/${{ inputs.ARCH }}/boot/dtb.img ] && \
-          cp arch/${{ inputs.ARCH }}/boot/dtb.img AnyKernel3/
-          
-        cd AnyKernel3
-        zip -r9 ../../build/kernel-${{ github.sha }}.zip *
+        curl -LSs "https://raw.githubusercontent.com/mlm-games/KernelSU-Non-GKI/main/kernel/setup-subm.sh" | bash -s 
+        ./KernelSU/scripts/kernel_zipper.sh --dtb=arch/${{ inputs.ARCH }}/boot/dtb.img --dtbo=arch/${{ inputs.ARCH }}/boot/dtbo.img
 
 branding:
   icon: 'cpu' 
