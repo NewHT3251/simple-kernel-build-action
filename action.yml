@@ -111,7 +111,7 @@ runs:
         if [ ${{ inputs.KRPOBE_ONLY }} == false ]; then
           python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
         else
-          export CONFIG_KSU=y
+          python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }} --enable-ksu-only-in-defconfig
         
     - name: Build Kernel
       shell: bash
