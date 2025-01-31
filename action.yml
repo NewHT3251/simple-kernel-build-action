@@ -112,6 +112,7 @@ runs:
           python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
         else
           python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }} --enable-ksu-only-in-defconfig
+        fi
         
     - name: Build Kernel
       shell: bash
