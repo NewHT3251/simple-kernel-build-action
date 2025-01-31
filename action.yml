@@ -81,9 +81,10 @@ runs:
     - name: Clone Kernel Source
       shell: bash
       run: |
-        # if [ -z ${{ inputs.KERNEL_CLONE_CMD }} ]; then
-        #   ${{ github.repository }}
-        ${{ inputs.KERNEL_CLONE_CMD }} --depth=1 kernel_source
+        if [ ${{ inputs.KERNEL_CLONE_CMD }} == ${{ github.repository }} ]; then
+          git clone https://github.com/${{ github.repository }} --depth=1 kernel_source
+        else
+          ${{ inputs.KERNEL_CLONE_CMD }} --depth=1 kernel_source
         
     - name: Setup Toolchain and ccache vars
       shell: bash
