@@ -39,14 +39,18 @@ inputs:
     
   # Features
   ENABLE_KSU:
-    description: 'Enable KernelSU support for non-gki (non-kprobe) ( ONLY ENABLE IF NOT ALREADY INTEGRATED!!! )'
+    description: 'Enable KernelSU support for non-gki (for non-kprobe, ONLY ENABLE IF NOT ALREADY INTEGRATED!!! )'
+    required: false
+    default: false
+  KSU_KPROBE_ONLY:
+    description: 'Kprobe or non kprobe'
     required: false
     default: false
   KSU_CURL_COMMAND:
     description: 'External KernelSU curl command (check KernelSU readme)'
     required: false
     default: 'curl -LSs "https://raw.githubusercontent.com/mlm-games/KernelSU-Non-GKI/main/kernel/setup-subm.sh" | bash -s '
-    
+  
   ENABLE_CCACHE:
     description: 'Enable ccache support'
     required: false 
@@ -104,7 +108,10 @@ runs:
       run: |
         cd kernel_source
         ${{ inputs.KSU_CURL_COMMAND }}
-        python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
+        if [ ${{ inputs.KRPOBE_ONLY }} == false ]; then
+          python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
+        else
+          export CONFIG_KSU=y
         
     - name: Build Kernel
       shell: bash
