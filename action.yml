@@ -108,7 +108,7 @@ runs:
       run: |
         cd kernel_source
         ${{ inputs.KSU_CURL_COMMAND }}
-        if [ ${{ inputs.KRPOBE_ONLY }} == false ]; then
+        if [ "${{ inputs.KRPOBE_ONLY }}" = "false" ]; then
           python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }}
         else
           python3 KernelSU/scripts/integrate-no-kprobe.py ${{ inputs.KERNEL_CONFIG }} --enable-ksu-only-in-defconfig
